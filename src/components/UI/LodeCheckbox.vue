@@ -22,13 +22,34 @@
 
 <script>
 export default {
-  name: "lode-checkbox",
+  name: 'lode-checkbox',
   props: {
-    checkArray: { type: Array, default: () => [], require: true }, // Array that should be searched in
-    value: { type: String, default: null }, // Value of checkbox
-    filterObject: { type: Object, default: () => null }, // {name: "", values: []}
-    tag: { type: Object, default: () => {} },
-    disabled: { type: Boolean, default: false },
+    // Array that should be searched in
+    checkArray: {
+      type: Array,
+      default: () => [],
+      require: true,
+    },
+
+    // Value of checkbox
+    value: {
+      type: String,
+      default: null,
+    },
+
+    // {name: "", values: []}
+    filterObject: {
+      type: Object,
+      default: () => null,
+    },
+    tag: {
+      type: Object,
+      default: () => {},
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
   },
   data() {
     return {
@@ -39,11 +60,11 @@ export default {
     onInputChange(value) {
       if (this.filterObject) {
         const { name, urlName } = this.filterObject;
-        this.$emit("update:tag", { name, value, urlName });
+        this.$emit('update:tag', { name, value, urlName });
       } else {
-        this.$emit("update:tag", value);
+        this.$emit('update:tag', value);
       }
-      this.$emit("change");
+      this.$emit('change');
     },
     isChecked() {
       if (this.checkArray.length) {
@@ -70,8 +91,7 @@ export default {
   },
   emits: {
     change: (value) => value === undefined,
-    "update:tag": (value) =>
-      typeof value === "object" || typeof value === "string",
+    'update:tag': (value) => typeof value === 'object' || typeof value === 'string',
   },
   mounted() {
     this.isChecked();

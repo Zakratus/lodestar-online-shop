@@ -1,6 +1,7 @@
 import CartService from "@/services/cart.service";
 
-export const cartModule = {
+export default {
+  namespaced: true,
   state: () => ({
     cart: [],
     cartId: '',

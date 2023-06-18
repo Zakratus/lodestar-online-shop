@@ -24,14 +24,14 @@
 
 <script>
 // Carousel
-import "vue3-carousel/dist/carousel.css";
-import { Carousel, Slide, Navigation } from "vue3-carousel";
+import 'vue3-carousel/dist/carousel.css';
+import { Carousel, Slide, Navigation } from 'vue3-carousel';
 // Others
-import LodeCatalogItem from "@/components/catalog/LodeCatalogItem";
-import { mapGetters } from "vuex";
+import LodeCatalogItem from '@/components/catalog/LodeCatalogItem';
+import { mapGetters } from 'vuex';
 
 export default {
-  name: "LodeCatalogSlider",
+  name: 'LodeCatalogSlider',
   components: {
     LodeCatalogItem,
     Carousel,
@@ -51,7 +51,7 @@ export default {
     return {
       carouselSettings: {
         mouseDrag: false,
-        snapAlign: "start",
+        snapAlign: 'start',
         transition: 500,
         // autoplay: 5000,
         // pauseAutoplayOnHover: true,
@@ -73,7 +73,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["IS_PRODUCTS_LOADING"]),
+    ...mapGetters('products', ['IS_PRODUCTS_LOADING']),
   },
 };
 </script>

@@ -3,20 +3,23 @@
     class="lode-catalog-item"
     :class="{'lode-catalog-item--filters-opened': areFiltersOpened}"
   >
-    <p class="lode-catalog-item__article">Артикул: {{product.article}}</p>
+    <p class="lode-catalog-item__article">Артикул: {{ product.article }}</p>
     <div class="lode-catalog-item__flags">
       <div
         v-if="product.series"
         class="lode-catalog-item__series"
-      >{{product.series}}</div>
+      >{{ product.series }}
+      </div>
       <div
         v-else
         class="lode-catalog-item__series  lode-catalog-item__series--nothing"
-      >1</div>
+      >1
+      </div>
       <div
         class="lode-catalog-item__series lode-catalog-item__series--subseries"
         v-if="product.subseries"
-      >{{product.subseries}}</div>
+      >{{ product.subseries }}
+      </div>
     </div>
     <div class="lode-catalog-item__preview">
       <router-link :to="`/catalog/${product.article}`">
@@ -30,12 +33,12 @@
     <h3
       @click="$router.push(`${categoryPath}`)"
       class="lode-catalog-item__category"
-    >{{productCategory}}</h3>
+    >{{ productCategory }}</h3>
     <h1
       @click="$router.push(`/catalog/${product.article}`)"
       class="lode-catalog-item__name"
-    >{{product.name}}</h1>
-    <h2 class="lode-catalog-item__price">{{fixedPrice}} грн</h2>
+    >{{ product.name }}</h1>
+    <h2 class="lode-catalog-item__price">{{ fixedPrice }} грн</h2>
 
     <div class="lode-catalog-item__buttons">
       <lode-button
@@ -56,8 +59,8 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-import { fixPrice } from "@/helpers/price";
+import { mapActions, mapGetters } from 'vuex';
+import { fixPrice } from '@/helpers/price';
 
 export default {
   props: {
@@ -83,13 +86,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters([
-      "USER",
-      "CATEGORIES",
-      "CART_ID",
-      "IS_USER_AUTH",
-      "WISHLIST",
-    ]),
+    ...mapGetters('cart', ['CART_ID']),
+    ...mapGetters('auth', ['USER', 'IS_USER_AUTH']),
+    ...mapGetters('search', ['CATEGORIES']),
+    ...mapGetters('userFeatures', ['WISHLIST']),
     categoryPath() {
       for (let category of this.CATEGORIES) {
         if (this.product.category === category._id) return category.path;
@@ -106,7 +106,7 @@ export default {
     },
     productImage() {
       if (this.product.image) {
-        return this.product.image.includes("http")
+        return this.product.image.includes('http')
           ? this.product.image
           : require(`../../${this.product.image}`);
       }
@@ -116,14 +116,10 @@ export default {
     },
   },
   methods: {
-    ...mapActions([
-      "ADD_TAG",
-      "ADD_TO_CART",
-      "SET_CART",
-      "ADD_ITEM_TO_WISHLIST",
-      "REMOVE_ITEM_FROM_WISHLIST",
-      "SET_WISHLIST",
-    ]),
+    ...mapActions('userFeatures', ['ADD_ITEM_TO_WISHLIST', 'REMOVE_ITEM_FROM_WISHLIST', 'SET_WISHLIST']),
+    ...mapActions('cart', ['ADD_TO_CART', 'SET_CART']),
+    ...mapActions('filter', ['ADD_TAG']),
+
     addTagAndFilterProducts(tag) {
       this.ADD_TAG(tag);
     },
@@ -136,10 +132,10 @@ export default {
       }
     },
     setCartToLocalStorage(cart) {
-      localStorage.setItem("cart", JSON.stringify(cart));
+      localStorage.setItem('cart', JSON.stringify(cart));
     },
     addThisItemToLocalStorageCart() {
-      const cart = JSON.parse(localStorage.getItem("cart"));
+      const cart = JSON.parse(localStorage.getItem('cart'));
       const newProduct = {
         quantity: 1,
         product: this.product,
@@ -169,9 +165,9 @@ export default {
       return newCart;
     },
     toggleProductInLocalStorageWishlist(item) {
-      const wishlist = JSON.parse(localStorage.getItem("wishlist"));
+      const wishlist = JSON.parse(localStorage.getItem('wishlist'));
       const alreadyExists = wishlist.find(
-        (product) => product._id === item._id
+        (product) => product._id === item._id,
       );
       let newWishlist = [];
 
@@ -181,7 +177,7 @@ export default {
         newWishlist.push(...wishlist, item);
       }
 
-      localStorage.setItem("wishlist", JSON.stringify(newWishlist));
+      localStorage.setItem('wishlist', JSON.stringify(newWishlist));
       return newWishlist;
     },
     async toggleProductInWishlist() {
@@ -189,7 +185,7 @@ export default {
 
       if (!this.IS_USER_AUTH) {
         const newWishlist = this.toggleProductInLocalStorageWishlist(
-          this.product
+          this.product,
         );
         this.SET_WISHLIST(newWishlist);
 
@@ -225,12 +221,12 @@ export default {
         this.toggleProductInWishlist();
 
         return setTimeout(() => {
-          this.$emit("addedToWishlist");
+          this.$emit('addedToWishlist');
         }, 200);
       }
 
       this.toggleProductInWishlist().then((res) => {
-        this.$emit("addedToWishlist");
+        this.$emit('addedToWishlist');
       });
     },
   },
@@ -256,7 +252,7 @@ export default {
   background-color: $white;
 
   transition: border 0.1s linear, border-color 0.1s linear,
-    box-shadow 0.1s linear, height 0.2s linear;
+  box-shadow 0.1s linear, height 0.2s linear;
 
   &:hover {
     border: 1px solid $accent-light;

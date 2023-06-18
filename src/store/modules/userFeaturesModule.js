@@ -1,6 +1,7 @@
 import UserFeaturesService from "../../services/user-features.service";
 
-export const userFeaturesModule = {
+export default {
+  namespaced: true,
   state: () => ({
     wishlist: [],
     orders: []

@@ -57,7 +57,8 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["IS_USER_AUTH", "CART"]),
+    ...mapGetters('auth', ["IS_USER_AUTH"]),
+    ...mapGetters('cart', ["CART"]),
     fixedPrice() {
       return fixPrice(this.cartItem.price);
     },
@@ -68,13 +69,15 @@ export default {
     },
   },
   methods: {
-    ...mapActions([
+    ...mapActions('cart', [
       "DELETE_FROM_CART",
       "INCREMENT_CART_ITEM",
       "DECREMENT_CART_ITEM",
       "SET_CART",
     ]),
-    ...mapMutations(["INCREMENT_LOCAL_CART_ITEM", "DECREMENT_LOCAL_CART_ITEM"]),
+
+    ...mapMutations('cart', ["INCREMENT_LOCAL_CART_ITEM", "DECREMENT_LOCAL_CART_ITEM"]),
+
     incrementCartItem() {
       if (this.IS_USER_AUTH) {
         this.INCREMENT_CART_ITEM({

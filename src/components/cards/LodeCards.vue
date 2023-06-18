@@ -39,7 +39,8 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["CATEGORIES", "ARE_CATEGORIES_LOADED"]),
+    ...mapGetters('search', ["CATEGORIES"]),
+    ...mapGetters('loadingConditions', ['ARE_CATEGORIES_LOADED']),
     categories() {
       if (this.categoriesCards && this.ARE_CATEGORIES_LOADED) {
         return [...this.CATEGORIES]

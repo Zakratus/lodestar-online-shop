@@ -1,4 +1,5 @@
-export const filterModule = {
+export default {
+  namespaced: true,
   state: () => ({
     // Filters
     wasFiltered: false,
@@ -13,6 +14,7 @@ export const filterModule = {
     // Filters getters
     SELECTED_FILTERS: (state) => state.selectedFilters,
     WAS_FILTERED: (state) => state.wasFiltered,
+    // todo: remove SIDEBAR_FILTERS to LodeCatalogSidebar component
     SIDEBAR_FILTERS: (state) => state.sidebarFilters,
 
     // Tags getters
@@ -34,7 +36,7 @@ export const filterModule = {
     DEL_TAG: (state, { tagIndex = null, tagValue = '', tagName = '' }) => {
       let values = state.tags[tagIndex]?.values;
 
-      if (tagValue === "") {
+      if (tagValue === '') {
         return state.tags.splice(tagIndex, 1);
       }
 
@@ -47,11 +49,11 @@ export const filterModule = {
 
         state.tags.map(tag => {
           if (tag.name === tagName && tag.values.length > 1) {
-            finished = true
+            finished = true;
             tag.values = tag.values.filter(value => value !== tagValue);
           }
         });
-        if (finished) return
+        if (finished) return;
 
         return state.tags = state.tags.filter(tag => tag.name !== tagName);
       }
@@ -63,13 +65,13 @@ export const filterModule = {
         if (tag.name === name) {
           tag.values.push(value);
         }
-      })
+      });
     },
   },
   actions: {
     // Filters actions
     CHANGE_SELECTED_FILTERS({ commit }, filters) {
-      commit("SET_SELECTED_FILTERS", filters)
+      commit('SET_SELECTED_FILTERS', filters);
     },
     CREATE_FILTER_SPECS({ commit, rootState }) {
       let result = [];
@@ -109,13 +111,13 @@ export const filterModule = {
         });
       });
 
-      commit("SET_SIDEBAR_FILTERS", result);
+      commit('SET_SIDEBAR_FILTERS', result);
     },
     SET_SIDEBAR_FILTERS({ commit }, filters) {
-      commit('SET_SIDEBAR_FILTERS', filters)
+      commit('SET_SIDEBAR_FILTERS', filters);
     },
     TOGGLE_SIDEBAR_FILTER({ commit }, index) {
-      commit("TOGGLE_SIDEBAR_FILTER", index);
+      commit('TOGGLE_SIDEBAR_FILTER', index);
     },
 
     // Tags actions
@@ -130,33 +132,33 @@ export const filterModule = {
         if (exists) {
           exists = false;
           state.tags.forEach(stateTag => {
-            return stateTag.values.includes(tagValue) ? exists = true : exists
+            return stateTag.values.includes(tagValue) ? exists = true : exists;
           });
 
           if (exists) {
             return console.log('Such tag already exists');
           } else {
-            commit("ADD_TAG_VALUE", { name: tagName, value: tagValue });
+            commit('ADD_TAG_VALUE', { name: tagName, value: tagValue });
           }
 
         } else {
-          commit("SET_TAG", newTag);
+          commit('SET_TAG', newTag);
         }
       } else {
-        commit("SET_TAG", newTag);
+        commit('SET_TAG', newTag);
       }
     },
     REMOVE_TAG({ commit }, { index, value, name }) {
       commit('DEL_TAG', { tagIndex: index, tagValue: value, tagName: name });
     },
     REMOVE_ALL_TAGS({ commit }) {
-      commit("DEL_ALL_TAGS");
+      commit('DEL_ALL_TAGS');
     },
     SET_TAGS_QUERY({ commit }, queryObj = {}) {
-      commit("SET_TAGS_QUERY", queryObj)
+      commit('SET_TAGS_QUERY', queryObj);
     },
     SET_TAGS({ commit }, tags = []) {
-      commit("SET_TAGS", tags);
-    }
-  }
-}
+      commit('SET_TAGS', tags);
+    },
+  },
+};

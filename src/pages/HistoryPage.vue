@@ -7,7 +7,8 @@
           v-for="(value, key) in labels"
           :key="key"
           class="lode-history__label"
-        >{{value}}</div>
+        >{{ value }}
+        </div>
       </div>
       <ul class="lode-history__list">
         <li
@@ -19,12 +20,12 @@
             to="/"
             class="lode-history__item-number"
           >
-            <p>№{{getTimestamp(orderData.time)}}</p>
+            <p>№{{ getTimestamp(orderData.time) }}</p>
           </router-link>
 
-          <div class="lode-history__item-date">{{orderDate(getTimestamp(orderData.time))}}</div>
-          <div class="lode-history__item-quantity">{{orderData.itemsQuantity}} шт.</div>
-          <div class="lode-history__item-total-cost">{{orderData.totalCost}} грн.</div>
+          <div class="lode-history__item-date">{{ orderDate(getTimestamp(orderData.time)) }}</div>
+          <div class="lode-history__item-quantity">{{ orderData.itemsQuantity }} шт.</div>
+          <div class="lode-history__item-total-cost">{{ orderData.totalCost }} грн.</div>
           <div class="lode-history__item-status">Выполнен</div>
           <div class="lode-history__item-post-number">Самовывоз</div>
         </li>
@@ -34,33 +35,34 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
-import { getDateFromTimestamp } from "@/helpers/time";
+import { mapGetters, mapActions } from 'vuex';
+import { getDateFromTimestamp } from '@/helpers/time';
 
 export default {
-  name: "history-page",
+  name: 'history-page',
   data() {
     return {
       isHistoryLoading: true,
       showLoadingError: false,
       labels: {
-        number: "№ Заказа",
-        date: "Дата заказа",
-        quantity: "Количество товаров",
-        totalCost: "Сумма заказа",
-        status: "Статус",
-        postNumber: "Номер отправки",
+        number: '№ Заказа',
+        date: 'Дата заказа',
+        quantity: 'Количество товаров',
+        totalCost: 'Сумма заказа',
+        status: 'Статус',
+        postNumber: 'Номер отправки',
       },
     };
   },
   computed: {
-    ...mapGetters(["ORDERS", "USER", "IS_USER_AUTH"]),
+    ...mapGetters('auth', ['USER', 'IS_USER_AUTH']),
+    ...mapGetters('userFeatures', ['ORDERS']),
     isUserAuth() {
       return this.IS_USER_AUTH;
     },
   },
   methods: {
-    ...mapActions(["GET_USERS_ORDERS_FROM_API"]),
+    ...mapActions('userFeatures', ['GET_USERS_ORDERS_FROM_API']),
     getTimestamp(orderTime) {
       return Number(new Date(orderTime));
     },

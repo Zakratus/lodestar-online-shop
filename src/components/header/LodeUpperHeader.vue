@@ -14,7 +14,8 @@
             <a
               href=""
               class="lode-upper-header__link"
-            >096-000-00-00</a>
+            >096-000-00-00
+            </a>
           </div>
           <div class="lode-upper-header__left-item">
             <img
@@ -24,7 +25,8 @@
             <a
               href=""
               class="lode-upper-header__link"
-            >mail@gmail.com</a>
+            >mail@gmail.com
+            </a>
           </div>
           <div class="lode-upper-header__left-item">
             <img
@@ -34,7 +36,8 @@
             <a
               href=""
               class="lode-upper-header__link"
-            >г.Киев, Харковское Шоссе, 201/203</a>
+            >г.Киев, Харковское Шоссе, 201/203
+            </a>
           </div>
 
         </div>
@@ -49,7 +52,8 @@
           <a
             @click.stop="toggleProfileModal()"
             class="lode-upper-header__link"
-          >Мой кабинет</a>
+          >Мой кабинет
+          </a>
 
           <!-- Modal -->
           <div
@@ -83,31 +87,36 @@
               <router-link
                 class="lode-upper-header__profile-link"
                 to="/profile"
-              >Личные данные</router-link>
+              >Личные данные
+              </router-link>
               <router-link
                 class="lode-upper-header__profile-link"
                 to="/history"
-              >История заказов</router-link>
+              >История заказов
+              </router-link>
               <router-link
                 class="lode-upper-header__profile-link"
                 to="/wishlist"
-              >Избранные товары</router-link>
+              >Избранные товары
+              </router-link>
               <router-link
                 class="lode-upper-header__profile-link"
                 to="/cart"
-              >Корзина</router-link>
+              >Корзина
+              </router-link>
             </div>
             <h2
               v-if="ERROR_MESSAGE?.length && !IS_USER_AUTH"
               class="lode-upper-header__error-message"
-            >{{ERROR_MESSAGE}}</h2>
+            >{{ ERROR_MESSAGE }}</h2>
 
             <!-- AUTHED Button -->
             <lode-button
               @click="logoutAndUpdateCart()"
               v-if="IS_USER_AUTH"
               class="btn--upper-header  btn--hover-lighten"
-            >Выйти</lode-button>
+            >Выйти
+            </lode-button>
             <!-- /AUTHED Button  -->
 
             <!-- NOT AUTHED Buttons -->
@@ -115,12 +124,14 @@
               @click="LOGIN({email, password})"
               v-if="!IS_USER_AUTH"
               class="btn--upper-header  btn--hover-lighten"
-            >Войти</lode-button>
+            >Войти
+            </lode-button>
             <lode-button
               v-if="!IS_USER_AUTH"
               class="btn--upper-header  btn--hover-lighten"
               @click="toRegistrationPage"
-            >Регистрация</lode-button>
+            >Регистрация
+            </lode-button>
             <!-- /NOT AUTHED Buttons -->
 
           </div>
@@ -135,19 +146,19 @@
 </template>
 
 <script>
-import LodeButton from "@/components/UI/LodeButton";
-import LodeInput from "@/components/UI/LodeInput.vue";
-import { mapActions, mapGetters } from "vuex";
+import LodeButton from '@/components/UI/LodeButton';
+import LodeInput from '@/components/UI/LodeInput.vue';
+import { mapActions, mapGetters } from 'vuex';
 // SVG
 import {
   PhoneSvgSrc,
   MailSvgSrc,
   MapSvgSrc,
   ProfilSvgSrc,
-} from "@/assets/icons";
+} from '@/assets/icons';
 
 export default {
-  name: "LodeUpperHeader",
+  name: 'LodeUpperHeader',
   components: {
     LodeButton,
     LodeInput,
@@ -163,12 +174,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters([
-      "EMAIL_INPUT",
-      "PASSWORD_INPUT",
-      "IS_USER_AUTH",
-      "ERROR_MESSAGE",
-    ]),
+    ...mapGetters('auth', ['EMAIL_INPUT', 'PASSWORD_INPUT', 'IS_USER_AUTH', 'ERROR_MESSAGE']),
     email: {
       set(modelValue) {
         this.SET_EMAIL_INPUT(modelValue);
@@ -187,28 +193,23 @@ export default {
     },
   },
   methods: {
-    ...mapActions([
-      "SET_EMAIL_INPUT",
-      "SET_PASSWORD_INPUT",
-      "LOGIN",
-      "LOGOUT",
-      "SET_CART",
-    ]),
+    ...mapActions('auth', ['SET_EMAIL_INPUT', 'SET_PASSWORD_INPUT', 'LOGIN', 'LOGOUT']),
+    ...mapActions('cart', ['SET_CART']),
     toggleProfileModal() {
       document
-        .querySelector("body")
-        .addEventListener("click", () => (this.showProfileModal = false), {
+        .querySelector('body')
+        .addEventListener('click', () => (this.showProfileModal = false), {
           once: true,
         });
 
       this.showProfileModal = !this.showProfileModal;
     },
     toRegistrationPage() {
-      this.$router.push("/registration");
+      this.$router.push('/registration');
     },
     logoutAndUpdateCart() {
       this.LOGOUT();
-      this.SET_CART(JSON.parse(localStorage.getItem("cart")));
+      this.SET_CART(JSON.parse(localStorage.getItem('cart')));
     },
   },
 };

@@ -24,7 +24,9 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["GET_FILTERED_PRODUCTS_FROM_API", "SET_TAGS"]),
+    ...mapActions('products', ["GET_FILTERED_PRODUCTS_FROM_API"]),
+    ...mapActions('filter', ["SET_TAGS"]),
+
     updateTags() {
       const tags = JSON.parse(localStorage.getItem("tags"));
       return tags ? this.SET_TAGS(tags) : null;

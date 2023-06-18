@@ -47,14 +47,14 @@
 </template>
 
 <script>
-import LodeCatalogItem from "@/components/catalog/LodeCatalogItem";
-import LodeCatalogSidebar from "@/components/catalog/LodeCatalogSidebar";
-import LodeCatalogTags from "@/components/catalog/LodeCatalogTags";
-import LodeCatalogPagination from "@/components/catalog/LodeCatalogPagination";
-import { mapActions, mapGetters } from "vuex";
+import LodeCatalogItem from '@/components/catalog/LodeCatalogItem';
+import LodeCatalogSidebar from '@/components/catalog/LodeCatalogSidebar';
+import LodeCatalogTags from '@/components/catalog/LodeCatalogTags';
+import LodeCatalogPagination from '@/components/catalog/LodeCatalogPagination';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
-  name: "lode-catalog",
+  name: 'lode-catalog',
   components: {
     LodeCatalogItem,
     LodeCatalogSidebar,
@@ -71,7 +71,7 @@ export default {
   props: {
     category: {
       type: String,
-      default: "",
+      default: '',
     },
     updateSidebarFilters: {
       type: Boolean,
@@ -83,15 +83,14 @@ export default {
     },
   },
   computed: {
-    ...mapGetters([
-      "PRODUCTS",
-      "IS_PRODUCTS_LOADING",
-      "SEARCHED_PRODUCTS",
-      "FILTERED_PRODUCTS",
-      "PREFILTERED_PRODUCTS",
-      "IS_FOUND",
-      "WAS_SEARCHED",
+    ...mapGetters('products', [
+      'PRODUCTS',
+      'IS_PRODUCTS_LOADING',
+      'SEARCHED_PRODUCTS',
+      'FILTERED_PRODUCTS',
+      'PREFILTERED_PRODUCTS',
     ]),
+    ...mapGetters('search', ['IS_FOUND', 'WAS_SEARCHED']),
     searchedAndFilteredProducts() {
       if (this.FILTERED_PRODUCTS.length) {
         return this.FILTERED_PRODUCTS;
@@ -121,12 +120,12 @@ export default {
 
       return [...this.searchedAndFilteredProducts].splice(
         start,
-        this.maxProductsOnPage
+        this.maxProductsOnPage,
       );
     },
   },
   methods: {
-    ...mapActions(["GET_PRODUCTS_FROM_API", "SET_FILTERED_PRODUCTS"]),
+    ...mapActions('products', ['GET_PRODUCTS_FROM_API', 'SET_FILTERED_PRODUCTS']),
     async getCategoryProducts() {
       if (!this.category.length) {
         return;

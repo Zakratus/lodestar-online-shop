@@ -3,7 +3,7 @@
     <div class="container">
       <h1 class="lode-search-page__results">
         Рузультаты поиска
-        <span class="lode-search-page__results-query">"{{searchedText}}"</span>
+        <span class="lode-search-page__results-query">"{{ searchedText }}"</span>
       </h1>
     </div>
     <lode-catalog />
@@ -12,20 +12,20 @@
 </template>
 
 <script>
-import LodeCatalog from "@/components/catalog/LodeCatalog";
-import { mapActions } from "vuex";
+import LodeCatalog from '@/components/catalog/LodeCatalog';
+import { mapActions } from 'vuex';
 
 export default {
   components: {
     LodeCatalog,
   },
   methods: {
-    ...mapActions([
-      "SET_SEARCHED_PRODUCTS",
-      "SET_SEARCHED",
-      "SEARCH_PRODUCTS",
-      "CHANGE_FOUND",
+    ...mapActions('search', [
+      'SET_SEARCHED',
+      'SEARCH_PRODUCTS',
+      'CHANGE_FOUND',
     ]),
+    ...mapActions('products', ['SET_SEARCHED_PRODUCTS']),
   },
   computed: {
     searchedText() {

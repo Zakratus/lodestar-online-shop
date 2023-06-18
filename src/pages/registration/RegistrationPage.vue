@@ -24,12 +24,13 @@
           type="password"
         ></lode-input>
 
-        <h2 v-if='REGISTRATION_ERROR_MESSAGE'>{{REGISTRATION_ERROR_MESSAGE}}</h2>
+        <h2 v-if="REGISTRATION_ERROR_MESSAGE">{{ REGISTRATION_ERROR_MESSAGE }}</h2>
 
         <lode-button
           @click="checkedRegistration"
           class="lode-registration__button btn--registration  btn--hover-lighten"
-        >Зарегестрироваться</lode-button>
+        >Зарегестрироваться
+        </lode-button>
       </div>
       <div class="lode-registration__advantages">
         <h2 class="lode-registration__advantages-title">Преимущества зарегистрированного пользователя:</h2>
@@ -38,7 +39,8 @@
             v-for="advantage in advantages"
             :key="advantage"
             class="lode-registration__advantages-item"
-          >{{advantage}}</li>
+          >{{ advantage }}
+          </li>
 
         </ul>
       </div>
@@ -48,9 +50,9 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-import LodeInput from "@/components/UI/LodeInput.vue";
-import LodeButton from "@/components/UI/LodeButton.vue";
+import { mapActions, mapGetters } from 'vuex';
+import LodeInput from '@/components/UI/LodeInput.vue';
+import LodeButton from '@/components/UI/LodeButton.vue';
 
 export default {
   components: {
@@ -59,20 +61,20 @@ export default {
   },
   data() {
     return {
-      passwordSecond: "",
+      passwordSecond: '',
       advantages: [
-        "Сохранение личных данных",
-        "Отслеживание заказов на персональной странице",
-        "Возможность настроить магазин под себя для более удобных покупок",
-        "Ускоренное оформление последующих заказов",
+        'Сохранение личных данных',
+        'Отслеживание заказов на персональной странице',
+        'Возможность настроить магазин под себя для более удобных покупок',
+        'Ускоренное оформление последующих заказов',
       ],
     };
   },
   computed: {
-    ...mapGetters([
-      "REGISTRATION_EMAIL",
-      "REGISTRATION_PASSWORD",
-      "REGISTRATION_ERROR_MESSAGE",
+    ...mapGetters('auth', [
+      'REGISTRATION_EMAIL',
+      'REGISTRATION_PASSWORD',
+      'REGISTRATION_ERROR_MESSAGE',
     ]),
     registrationEmail: {
       set(modelValue) {
@@ -92,11 +94,11 @@ export default {
     },
   },
   methods: {
-    ...mapActions([
-      "REGISTRATION",
-      "SET_REGISTRATION_EMAIL",
-      "SET_REGISTRATION_PASSWORD",
-      "SET_REGISTRATION_ERROR_MESSAGE",
+    ...mapActions('auth', [
+      'REGISTRATION',
+      'SET_REGISTRATION_EMAIL',
+      'SET_REGISTRATION_PASSWORD',
+      'SET_REGISTRATION_ERROR_MESSAGE',
     ]),
     checkedRegistration() {
       if (this.REGISTRATION_PASSWORD === this.passwordSecond) {
@@ -105,7 +107,7 @@ export default {
           password: this.REGISTRATION_PASSWORD,
         });
       } else {
-        this.SET_REGISTRATION_ERROR_MESSAGE("Пароли не совпадают");
+        this.SET_REGISTRATION_ERROR_MESSAGE('Пароли не совпадают');
       }
     },
   },

@@ -9,7 +9,8 @@
         v-for="category in CATEGORIES"
         :value="category.value"
         :key="category._id"
-      >{{category.name}}</option>
+      >{{ category.name }}
+      </option>
 
     </select>
     <lode-input
@@ -22,17 +23,19 @@
       @click="searchProducts"
       type="button"
       class="btn--search"
-    >Поиск</lode-button>
+    >Поиск
+    </lode-button>
   </form>
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-import { updateSearchPath } from "@/helpers/router";
+import { mapActions, mapGetters } from 'vuex';
+import { updateSearchPath } from '@/helpers/router';
+
 export default {
-  name: "LodeHeaderSearch",
+  name: 'LodeHeaderSearch',
   computed: {
-    ...mapGetters(["SEARCH_FORM", "CATEGORIES"]),
+    ...mapGetters('search', ['SEARCH_FORM', 'CATEGORIES']),
     // Two-way Computed Property (searchText, searchCategory)
     // to be able to use v-model with Vuex data
     searchText: {
@@ -53,7 +56,7 @@ export default {
     },
     selectedCategoryId() {
       return this.CATEGORIES.find(
-        (category) => category.value === this.SEARCH_FORM.category
+        (category) => category.value === this.SEARCH_FORM.category,
       )._id;
     },
     searchQuery() {
@@ -67,14 +70,15 @@ export default {
     },
   },
   methods: {
-    ...mapActions([
-      "CHANGE_SEARCH_CATEGORY",
-      "CHANGE_SEARCH_TEXT",
-      "SET_FILTERED_PRODUCTS",
-      "SEARCH_PRODUCTS",
-      "GET_CATEGORIES_FROM_API",
-      "CHANGE_CATEGORIES_LOADED",
+    ...mapActions('search', [
+      'CHANGE_SEARCH_CATEGORY',
+      'CHANGE_SEARCH_TEXT',
+      'SEARCH_PRODUCTS',
+      'GET_CATEGORIES_FROM_API',
     ]),
+    ...mapActions('products', ['SET_FILTERED_PRODUCTS']),
+    ...mapActions('loadingConditions', ['CHANGE_CATEGORIES_LOADED']),
+
     searchProducts() {
       this.SEARCH_PRODUCTS({
         categoryQuery: this.selectedCategoryId,
@@ -90,7 +94,7 @@ export default {
     setSearchQueryFromURL() {
       if (this.$route.query.text) {
         let searchedCategory = this.CATEGORIES.find(
-          (category) => category._id === this.$route.query.category
+          (category) => category._id === this.$route.query.category,
         );
         this.searchCategory = searchedCategory.value;
         this.searchText = this.searchQuery.text;
@@ -104,7 +108,7 @@ export default {
 };
 </script>
 
-<style lang='scss'>
+<style lang="scss">
 .lode-header__search {
   &-select {
     padding: 0px 1.5rem;

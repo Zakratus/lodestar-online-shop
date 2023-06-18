@@ -42,7 +42,7 @@
             @click="TOGGLE_SIDEBAR_FILTER(index)"
             class="lode-catalog__sidebar-header"
           >
-            <p class="lode-catalog__sidebar-title">{{filter.name}}</p>
+            <p class="lode-catalog__sidebar-title">{{ filter.name }}</p>
             <svg
               :class="{'lode-catalog__sidebar-arrow--closed': isFilterClosed(index)}"
               class="lode-catalog__sidebar-arrow"
@@ -66,7 +66,8 @@
                   :value="String(variant)"
                   :checkArray="stateTags"
                   v-model:tag="lastActiveTag"
-                >{{`${variant} ${filter.sign}`}}</lode-checkbox>
+                >{{ `${variant} ${filter.sign}` }}
+                </lode-checkbox>
               </li>
             </ul>
           </div>
@@ -78,9 +79,10 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
-  name: "LodeCatalogSidebar",
+  name: 'LodeCatalogSidebar',
   props: {
     createSidebarFilters: {
       type: Boolean,
@@ -110,24 +112,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters([
-      "SEARCHED_PRODUCTS",
-      "FILTERED_PRODUCTS",
-      "PREFILTERED_PRODUCTS",
-      "WAS_SEARCHED",
-      "SIDEBAR_FILTERS",
-      "TAGS",
-      "TAGS_QUERY",
-    ]),
-    searchedProducts() {
-      return this.SEARCHED_PRODUCTS;
-    },
-    filteredProducts() {
-      return this.FILTERED_PRODUCTS;
-    },
-    wasSearched() {
-      return this.WAS_SEARCHED;
-    },
+    ...mapGetters('products', ['SEARCHED_PRODUCTS', 'FILTERED_PRODUCTS', 'PREFILTERED_PRODUCTS']),
+    ...mapGetters('search', ['WAS_SEARCHED']),
+    ...mapGetters('filter', ['SIDEBAR_FILTERS', 'TAGS', 'TAGS_QUERY']),
+
     stateTags: {
       get() {
         return this.TAGS;
@@ -138,16 +126,19 @@ export default {
     },
   },
   methods: {
-    ...mapActions([
-      "CREATE_FILTER_SPECS",
-      "TOGGLE_SIDEBAR_FILTER",
-      "ADD_TAG",
-      "REMOVE_TAG",
-      "SET_TAGS_QUERY",
-      "GET_PREFILTERED_PRODUCTS_FROM_API",
-      "SET_PREFILTERED_PRODUCTS",
-      "SET_FILTERED_PRODUCTS",
+    ...mapActions('products', [
+      'GET_PREFILTERED_PRODUCTS_FROM_API',
+      'SET_PREFILTERED_PRODUCTS',
+      'SET_FILTERED_PRODUCTS',
     ]),
+    ...mapActions('filter', [
+      'CREATE_FILTER_SPECS',
+      'TOGGLE_SIDEBAR_FILTER',
+      'ADD_TAG',
+      'REMOVE_TAG',
+      'SET_TAGS_QUERY',
+    ]),
+
     updateWindowWidth() {
       this.windowWidth = window.innerWidth;
     },
@@ -155,8 +146,8 @@ export default {
       this.areFiltersOpened = !this.areFiltersOpened;
 
       return this.areFiltersOpened
-        ? this.$emit("filtersOpened", true)
-        : this.$emit("filtersOpened", false);
+        ? this.$emit('filtersOpened', true)
+        : this.$emit('filtersOpened', false);
     },
     isFilterClosed(index) {
       return this.SIDEBAR_FILTERS[index].closed;
@@ -167,7 +158,7 @@ export default {
     getQueryObject(tags) {
       let arr = [];
       [...tags].forEach(({ urlName: key, values }) => {
-        arr.push([key, values.join("_")]);
+        arr.push([key, values.join('_')]);
       });
       return Object.fromEntries(arr);
     },
@@ -183,10 +174,10 @@ export default {
     },
     async getPrefilteredProducts() {
       const filter =
-        "?" +
+        '?' +
         Object.entries(this.TAGS_QUERY)
-          .map((item) => item.join("="))
-          .join("&");
+          .map((item) => item.join('='))
+          .join('&');
       await this.GET_PREFILTERED_PRODUCTS_FROM_API(filter);
     },
     prerenderSidebarFilters(newProductsArray = []) {
@@ -313,10 +304,10 @@ export default {
     },
   },
   emits: {
-    filtersOpened: (value) => typeof value === "boolean",
+    filtersOpened: (value) => typeof value === 'boolean',
   },
   mounted() {
-    addEventListener("resize", this.updateWindowWidth);
+    addEventListener('resize', this.updateWindowWidth);
 
     if (this.PREFILTERED_PRODUCTS.length) {
       this.prerenderSidebarFilters(this.PREFILTERED_PRODUCTS);
@@ -324,7 +315,7 @@ export default {
   },
 
   beforeUnmount() {
-    removeEventListener("resize", this.updateWindowWidth);
+    removeEventListener('resize', this.updateWindowWidth);
   },
 };
 </script>

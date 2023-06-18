@@ -2,18 +2,19 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import store from '@/store';
 import router from '@/router/router';
-import components from '@/components/UI'
+import UiComponents from '@/components/UI';
 import '@/assets/styles/variables.scss';
 import env from 'dotenv';
 
 const app = createApp(App);
 env.config();
 
-components.forEach(component => {
+// import UI components into all apps components
+UiComponents.forEach(component => {
   app.component(component.name, component);
-})
+});
 
 app
   .use(store)
   .use(router)
-  .mount('#app')
+  .mount('#app');
