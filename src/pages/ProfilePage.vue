@@ -12,7 +12,7 @@
             v-for="label in dataNames"
             :key="label"
             class="lode-profile__labels-item"
-          >{{label}}:</p>
+          >{{ label }}:</p>
         </div>
 
         <div class="lode-profile__inputs">
@@ -27,7 +27,7 @@
               v-if="isDataChanging(name, data)"
               class="lode-profile__inputs-item-text"
             >
-              {{data}}
+              {{ data }}
               <button @click="openDataChange(name)">Изм.</button>
             </p>
             <div
@@ -42,7 +42,8 @@
                 <lode-button
                   class="btn--hover-darker lode-profile__inputs-button"
                   @click="closeDataChange(name)"
-                >Отменить</lode-button>
+                >Отменить
+                </lode-button>
               </div>
             </div>
           </div>
@@ -54,11 +55,12 @@
         class="lode-profile__inputs-button lode-profile__inputs-button--update btn--accent-color btn--hover-lighten"
         v-if="showUpdateButton"
         @click="updateUserData(USER.email, userDataToSave)"
-      >Сохранить изменения</lode-button>
+      >Сохранить изменения
+      </lode-button>
       <h2
         v-if="UPDATING_USER_MESSAGE.length"
         class="lode-profile__message-error"
-      >{{UPDATING_USER_MESSAGE}}</h2>
+      >{{ UPDATING_USER_MESSAGE }}</h2>
       <h2
         v-if="showEmailMessage"
         class="lode-progile__message"
@@ -73,9 +75,9 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
-import LodeInput from "@/components/UI/LodeInput.vue";
-import LodeButton from "../components/UI/LodeButton.vue";
+import { mapGetters, mapActions } from 'vuex';
+import LodeInput from '@/components/UI/LodeInput.vue';
+import LodeButton from '../components/UI/LodeButton.vue';
 
 export default {
   components: {
@@ -85,17 +87,17 @@ export default {
   data() {
     return {
       dataNames: [
-        "Имя",
-        "Фамилия",
-        "Электронная почта",
-        "Номер телефона",
-        "Отделение почты",
+        'Имя',
+        'Фамилия',
+        'Электронная почта',
+        'Номер телефона',
+        'Отделение почты',
       ],
       inputs: {
-        name: "",
-        surname: "",
-        phone: "",
-        email: "",
+        name: '',
+        surname: '',
+        phone: '',
+        email: '',
       },
       dataChangeState: {
         name: false,
@@ -107,7 +109,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["IS_USER_AUTH", "USER", "UPDATING_USER_MESSAGE"]),
+    ...mapGetters('auth', ['IS_USER_AUTH', 'USER', 'UPDATING_USER_MESSAGE']),
     isUserAuth: {
       get() {
         return this.IS_USER_AUTH;
@@ -123,30 +125,32 @@ export default {
     },
     userDataToSave() {
       return Object.fromEntries(
-        Object.entries(this.inputs).filter(([name, data]) => data.length)
+        Object.entries(this.inputs).filter(([name, data]) => data.length),
       );
     },
     showUpdateButton() {
       return Object.values(this.dataChangeState).includes(true);
     },
     showEmailMessage() {
-      return this.showMessage && !this.UPDATING_USER_MESSAGE.length
-        ? true
-        : false;
+      return this.showMessage && !this.UPDATING_USER_MESSAGE.length;
     },
   },
   methods: {
-    ...mapActions(["UPDATE_USER"]),
+    ...mapActions('auth', ['UPDATE_USER']),
     isDataChanging(name, data) {
       return data.length ? !this.dataChangeState[name] : false;
     },
     openDataChange(name) {
       this.inputs[name] = this.USER[name];
-      return (this.dataChangeState[name] = true);
+      return (
+        this.dataChangeState[name] = true
+      );
     },
     closeDataChange(name) {
-      this.inputs[name] = "";
-      return (this.dataChangeState[name] = false);
+      this.inputs[name] = '';
+      return (
+        this.dataChangeState[name] = false
+      );
     },
     updateUserData(email, userData) {
       for (let key in userData) {
@@ -159,10 +163,10 @@ export default {
 
       for (let key in this.dataChangeState) {
         this.dataChangeState[key] = false;
-        this.inputs[key] = "";
+        this.inputs[key] = '';
       }
 
-      if ("email" in userData) {
+      if ('email' in userData) {
         this.showMessage = true;
       }
     },

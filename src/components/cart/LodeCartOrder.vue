@@ -16,7 +16,8 @@
             <label
               :for="'order' + key"
               class="lode-cart-order__label"
-            >{{contactsInfoLabels[key]}}*</label>
+            >{{ contactsInfoLabels[key] }}*
+            </label>
             <lode-input
               type="text"
               :id="'order' + key"
@@ -46,26 +47,33 @@
               </div>
               <div class="lode-cart-order__product-name">
                 <router-link
-                  :to='{path: `/catalog/${item.product.article}`}'
+                  :to="{path: `/catalog/${item.product.article}`}"
                   class="lode-cart-order__product-name"
                 >
-                  <h3>{{item.product.name}}</h3>
+                  <h3>{{ item.product.name }}</h3>
                 </router-link>
-                <p class="lode-cart-order__product-quantity">{{item.quantity}} шт.</p>
+                <p class="lode-cart-order__product-quantity">{{ item.quantity }} шт.</p>
               </div>
-              <p class="lode-cart-order__product-price">{{getProductItemPrice(item)}} грн.</p>
+              <p class="lode-cart-order__product-price">{{ getProductItemPrice(item) }} грн.</p>
             </li>
           </ul>
 
-          <p class="lode-cart-order__info-quantity">Общее количество товаров: <span>{{cartQuantityItems}} шт.</span></p>
-          <p class="lode-cart-order__info-cost">Итоговая сумма заказа: <span>{{cartTotalCost}} грн.</span></p>
+          <p class="lode-cart-order__info-quantity">Общее количество товаров:
+            <span>{{ cartQuantityItems }} шт.</span>
+          </p>
+          <p class="lode-cart-order__info-cost">Итоговая сумма заказа:
+            <span>{{ cartTotalCost }} грн.</span>
+          </p>
         </div> <!-- /lode-cart-order__info -->
 
         <lode-button
           @click="submitOrder(USER.id, CART, createOrderData(), contactsInfo)"
           class="lode-cart-order__button btn--accent-color  btn--hover-lighten"
-        >Подтвердить заказ</lode-button>
-        <p class="lode-cart-order__warning">Регистрируясь и оформляя заказ, я принимаю условия пользовательского соглашения</p>
+        >Подтвердить заказ
+        </lode-button>
+        <p class="lode-cart-order__warning">Регистрируясь и оформляя заказ, я принимаю условия пользовательского
+          соглашения
+        </p>
       </div>
 
       <div
@@ -80,66 +88,70 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
-import { fixPrice, getNumberFromPrice } from "@/helpers/price";
+import { mapGetters, mapActions } from 'vuex';
+import { fixPrice, getNumberFromPrice } from '@/helpers/price';
 
 export default {
-  name: "lode-cart-order",
+  name: 'lode-cart-order',
   data() {
     return {
       contactsInfo: {
-        name: "",
-        phone: "",
-        email: "",
-        post: "",
+        name: '',
+        phone: '',
+        email: '',
+        post: '',
       },
       contactsInfoLabels: {
-        name: "Имя",
-        phone: "Телефон",
-        email: "Електронная почта",
-        post: "Номер отделения почты",
+        name: 'Имя',
+        phone: 'Телефон',
+        email: 'Електронная почта',
+        post: 'Номер отделения почты',
       },
       orderCreated: false,
     };
   },
   computed: {
-    ...mapGetters(["USER", "IS_USER_AUTH", "CART"]),
+    ...mapGetters('cart', ['CART']),
+    ...mapGetters('auth', ['USER', 'IS_USER_AUTH']),
+
     cartQuantityItems() {
       return this.CART.length
         ? this.CART.reduce((acc, item) => acc + item.quantity, 0)
         : 0;
     },
+
     cartTotalCost() {
       return this.CART.length
         ? fixPrice(
-            this.CART.reduce(
-              (acc, item) => acc + item.product.price * item.quantity,
-              0
-            )
-          )
+          this.CART.reduce(
+            (acc, item) => acc + item.product.price * item.quantity,
+            0,
+          ),
+        )
         : 0;
     },
   },
+
   methods: {
-    ...mapActions([
-      "CREATE_ORDER",
-      "DELETE_ALL_FROM_CART",
-      "SET_CART",
-      "CREATE_GUEST_ORDER",
-    ]),
+    ...mapActions('cart', ['DELETE_ALL_FROM_CART', 'SET_CART']),
+    ...mapActions('userFeatures', ['CREATE_ORDER', 'CREATE_GUEST_ORDER']),
+
     completeContactsInfo(user) {
       for (let name in this.contactsInfo) {
         this.contactsInfo[name] = user[name];
       }
     },
+
     getCartItemImage(cartItem) {
-      return cartItem?.image?.includes("http")
+      return cartItem?.image?.includes('http')
         ? cartItem.image
         : require(`../../${cartItem.image}`);
     },
+
     getProductItemPrice(cartItem) {
       return fixPrice(cartItem.quantity * cartItem.product.price);
     },
+
     createOrderData() {
       return {
         time: Date.now(),
@@ -147,10 +159,12 @@ export default {
         itemsQuantity: this.cartQuantityItems,
       };
     },
+
     deleteAllFromLocalStorageCart() {
-      localStorage.setItem("cart", JSON.stringify([]));
+      localStorage.setItem('cart', JSON.stringify([]));
       this.SET_CART([]);
     },
+
     async submitOrder(userId, products, orderData, userData) {
       if (this.IS_USER_AUTH) {
         const created = await this.CREATE_ORDER({
@@ -172,6 +186,7 @@ export default {
       }
     },
   },
+
   mounted() {
     if (this.IS_USER_AUTH) {
       this.completeContactsInfo(this.USER);

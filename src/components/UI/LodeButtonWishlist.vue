@@ -12,11 +12,11 @@
 </template>
 
 <script>
-import { HeartFillSvgSrc, HeartSvgSrc } from "@/assets/icons";
-import { mapGetters } from "vuex";
+import { HeartFillSvgSrc, HeartSvgSrc } from '@/assets/icons';
+import { mapGetters } from 'vuex';
 
 export default {
-  name: "lode-button-wishlist",
+  name: 'lode-button-wishlist',
   props: {
     isWishlistToggled: {
       type: Boolean,
@@ -24,7 +24,7 @@ export default {
     },
     productId: {
       type: String,
-      default: "",
+      default: '',
     },
   },
   data() {
@@ -35,7 +35,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["WISHLIST"]),
+    ...mapGetters('userFeatures', ['WISHLIST']),
     wishlistSVG() {
       return this.WISHLIST.find((product) => product._id === this.productId)
         ? this.HeartFillSvgSrc

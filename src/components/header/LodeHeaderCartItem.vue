@@ -10,24 +10,25 @@
       <p
         @click="$router.push(`/catalog/${cartItem.article}`)"
         class="lode-header__cart-item-name"
-      >{{shorterName(cartItem.name)}}</p>
-      <p class="lode-header__cart-item-price">{{fixedPrice}} грн</p>
-      <p class="lode-header__cart-item-quantity">{{quantity}} шт.</p>
+      >{{ shorterName(cartItem.name) }}</p>
+      <p class="lode-header__cart-item-price">{{ fixedPrice }} грн</p>
+      <p class="lode-header__cart-item-quantity">{{ quantity }} шт.</p>
     </div>
     <button
       class="lode-header__cart-item-btn"
       @click="deleteFromCart()"
-    >X</button>
+    >X
+    </button>
   </li>
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-import { substringProductName } from "@/helpers/name";
-import { fixPrice } from "@/helpers/price";
+import { mapActions, mapGetters } from 'vuex';
+import { substringProductName } from '@/helpers/name';
+import { fixPrice } from '@/helpers/price';
 
 export default {
-  name: "LodeHeaderCartItem",
+  name: 'LodeHeaderCartItem',
   props: {
     cartItem: {
       type: Object,
@@ -38,7 +39,7 @@ export default {
     },
     cartId: {
       type: String,
-      default: "",
+      default: '',
     },
     quantity: {
       type: Number,
@@ -51,26 +52,26 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["IS_USER_AUTH"]),
+    ...mapGetters('auth', ['IS_USER_AUTH']),
     fixedPrice() {
       return fixPrice(this.cartItem?.price);
     },
     cartItemImage() {
-      return this.cartItem?.image?.includes("http")
+      return this.cartItem?.image?.includes('http')
         ? this.cartItem.image
         : require(`../../${this.cartItem.image}`);
     },
   },
   methods: {
-    ...mapActions(["DELETE_FROM_CART", "SET_CART"]),
+    ...mapActions('cart', ['DELETE_FROM_CART', 'SET_CART']),
     shorterName(name) {
       return substringProductName(name);
     },
     deleteItemFromLocalStorageCart() {
-      let newCart = JSON.parse(localStorage.getItem("cart"));
+      let newCart = JSON.parse(localStorage.getItem('cart'));
       newCart.splice(this.itemIndex, 1);
 
-      localStorage.setItem("cart", JSON.stringify(newCart));
+      localStorage.setItem('cart', JSON.stringify(newCart));
 
       return newCart;
     },

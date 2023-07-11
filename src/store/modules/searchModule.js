@@ -1,7 +1,8 @@
 import CategoryService from "@/services/categories.service";
 import ProductService from "@/services/products.service";
 
-export const searchModule = {
+export default {
+  namespaced: true,
   state: () => ({
     searchForm: {
       category: "Все категории",

@@ -37,16 +37,17 @@
           <lode-button
             class="btn--accent-color  btn--hover-lighten"
             @click="openOrderModal()"
-          >Оформить заказ</lode-button>
+          >Оформить заказ
+          </lode-button>
         </div>
         <div class="lode-cart__resume-total">
           <div class="lode-cart__resume-total-part">
             <p class="lode-cart__resume-total-title">Общее количество товаров:</p>
-            <h2 class="lode-cart__resume-total-quantity">{{cartTotalQuantity}}</h2>
+            <h2 class="lode-cart__resume-total-quantity">{{ cartTotalQuantity }}</h2>
           </div>
           <div class="lode-cart__resume-total-part">
             <p class="lode-cart__resume-total-title">Итого:</p>
-            <h2 class="lode-cart__resume-total-price">{{cartTotalCost}} грн.</h2>
+            <h2 class="lode-cart__resume-total-price">{{ cartTotalCost }} грн.</h2>
           </div>
 
         </div>
@@ -56,43 +57,44 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
-import { fixPrice } from "@/helpers/price";
-import LodeCartItem from "@/components/cart/LodeCartItem";
+import { mapGetters, mapActions } from 'vuex';
+import { fixPrice } from '@/helpers/price';
+import LodeCartItem from '@/components/cart/LodeCartItem';
 
 export default {
-  name: "LodeCart",
+  name: 'LodeCart',
   components: {
     LodeCartItem,
   },
   computed: {
-    ...mapGetters(["CART", "USER", "IS_USER_AUTH", "CART_ID"]),
+    ...mapGetters('cart', ['CART', 'CART_ID']),
+    ...mapGetters('auth', ['USER', 'IS_USER_AUTH']),
+
     cartTotalCost() {
       return !this.CART.length
         ? 0
         : fixPrice(
-            this.CART.reduce(
-              (acc, item) => acc + item.quantity * item.product.price,
-              0
-            )
-          );
+          this.CART.reduce(
+            (acc, item) => acc + item.quantity * item.product.price,
+            0,
+          ),
+        );
     },
+
     cartTotalQuantity() {
       return !this.CART.length
         ? 0
         : this.CART.reduce((acc, item) => acc + item.quantity, 0);
     },
+
     stateIsUserAuth() {
       return this.IS_USER_AUTH;
     },
-    localStorageCart() {
-      return JSON.parse(localStorage.getItem("cart"));
-    },
   },
   methods: {
-    ...mapActions(["SET_CART", "GET_CART_FROM_API"]),
+    ...mapActions('cart', ['SET_CART', 'GET_CART_FROM_API']),
     openOrderModal() {
-      this.$emit("openModal");
+      this.$emit('openModal');
     },
   },
   watch: {

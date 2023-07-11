@@ -6,14 +6,15 @@
       </h1>
       <div class="lode-wishlist__info">
         <p class="lode-wishlist__total-cost">
-          {{WISHLIST.length}} товаров на сумму {{wishlistCost}} грн
+          {{ WISHLIST.length }} товаров на сумму {{ wishlistCost }} грн
         </p>
 
         <lode-button
           class="lode-wishlist__button"
           :class="{'lode-wishlist__button--disabled': !WISHLIST.length}"
           @click="deleteAllItems()"
-        >Удалить всё</lode-button>
+        >Удалить всё
+        </lode-button>
       </div>
       <div
         v-if="WISHLIST.length"
@@ -35,10 +36,10 @@
 </template>
 
 <script>
-import LodeCatalogItem from "@/components/catalog/LodeCatalogItem";
-import { mapGetters, mapActions } from "vuex";
-import { fixPrice } from "@/helpers/price";
-import LodeButton from "@/components/UI/LodeButton.vue";
+import LodeCatalogItem from '@/components/catalog/LodeCatalogItem';
+import { mapGetters, mapActions } from 'vuex';
+import { fixPrice } from '@/helpers/price';
+import LodeButton from '@/components/UI/LodeButton.vue';
 
 export default {
   components: {
@@ -46,24 +47,25 @@ export default {
     LodeButton,
   },
   computed: {
-    ...mapGetters(["WISHLIST", "USER", "IS_USER_AUTH"]),
+    ...mapGetters('userFeatures', ['WISHLIST']),
+    ...mapGetters('auth', ['USER', 'IS_USER_AUTH']),
     wishlistCost() {
       return this.WISHLIST.length
         ? fixPrice(
-            this.WISHLIST.reduce((acc, product) => acc + product.price, 0)
-          )
+          this.WISHLIST.reduce((acc, product) => acc + product.price, 0),
+        )
         : 0;
     },
   },
   methods: {
-    ...mapActions(["REMOVE_ALL_ITEMS_FROM_WISHLIST", "SET_WISHLIST"]),
+    ...mapActions('userFeatures', ['REMOVE_ALL_ITEMS_FROM_WISHLIST', 'SET_WISHLIST']),
     deleteAllItems() {
       if (this.WISHLIST.length) {
         if (this.IS_USER_AUTH) {
           return this.REMOVE_ALL_ITEMS_FROM_WISHLIST(this.USER.wishlist);
         } else {
           const wishlist = JSON.stringify([]);
-          localStorage.setItem("wishlist", wishlist);
+          localStorage.setItem('wishlist', wishlist);
           this.SET_WISHLIST([]);
         }
       }

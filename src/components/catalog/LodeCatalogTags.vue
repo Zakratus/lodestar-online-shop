@@ -11,12 +11,12 @@
           @click="removeTag(index, value)"
           class="lode-catalog__tags-item"
         >
-          <p class="lode-catalog__tags-name">{{tag.name}}: </p>
+          <p class="lode-catalog__tags-name">{{ tag.name }}: </p>
           <p
             v-for="value of tag.values"
             :key="value"
             class="lode-catalog__tags-value"
-          >{{value}} </p>
+          >{{ value }} </p>
         </div>
       </transition-group>
     </div>
@@ -40,10 +40,11 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-import { updateFilterPath } from "@/helpers/router";
+import { mapActions, mapGetters } from 'vuex';
+import { updateFilterPath } from '@/helpers/router';
+
 export default {
-  name: "lode-catalog-tags",
+  name: 'lode-catalog-tags',
   data() {
     return {
       showResultButton: false,
@@ -57,7 +58,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["TAGS", "TAGS_QUERY"]),
+    ...mapGetters('filter', ['TAGS', 'TAGS_QUERY']),
     tags() {
       return this.TAGS;
     },
@@ -66,7 +67,8 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["REMOVE_TAG", "REMOVE_ALL_TAGS"]),
+    ...mapActions('filter', ['REMOVE_TAG', 'REMOVE_ALL_TAGS']),
+
     removeTag(index, value) {
       this.REMOVE_TAG({ index, value });
       if (!this.TAGS.length) this.showResultButton = false;
@@ -76,18 +78,18 @@ export default {
       this.showResultButton = false;
 
       if (!this.TAGS.length) {
-        this.$router.push("/catalog");
+        this.$router.push('/catalog');
       } else {
-        this.$emit("acceptFilters");
+        this.$emit('acceptFilters');
       }
     },
     setTagsInLocalStorage() {
       const tags = JSON.stringify(this.TAGS);
-      localStorage.setItem("tags", tags);
+      localStorage.setItem('tags', tags);
     },
     cleanAllFilters() {
       this.REMOVE_ALL_TAGS();
-      this.$router.push("/catalog");
+      this.$router.push('/catalog');
     },
   },
   watch: {
@@ -159,7 +161,7 @@ export default {
     line-height: 1.6;
 
     transition: box-shadow 0.1s linear, width 0.5s linear,
-      text-decoration 0.2s linear, color 0.2s linear;
+    text-decoration 0.2s linear, color 0.2s linear;
 
     &::after {
       content: "";

@@ -8,9 +8,9 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-import LodeHeader from "@/components/header/LodeHeader";
-import LodeFooter from "@/components/footer/LodeFooter";
+import { mapActions, mapGetters } from 'vuex';
+import LodeHeader from '@/components/header/LodeHeader';
+import LodeFooter from '@/components/footer/LodeFooter';
 
 export default {
   data() {
@@ -21,43 +21,45 @@ export default {
     LodeFooter,
   },
   computed: {
-    ...mapGetters(["IS_USER_AUTH"]),
+    ...mapGetters('auth', ['IS_USER_AUTH']),
   },
   methods: {
-    ...mapActions(["CHECK_AUTH", "SET_CART", "SET_WISHLIST"]),
+    ...mapActions('auth', ['CHECK_AUTH']),
+    ...mapActions('userFeatures', ['SET_WISHLIST']),
+    ...mapActions('cart', ['SET_CART']),
     addCartToLocalStorage() {
       const cart = JSON.stringify([]);
-      localStorage.setItem("cart", cart);
+      localStorage.setItem('cart', cart);
     },
     addWishlistToLocalStorage() {
       const wishlist = JSON.stringify([]);
-      localStorage.setItem("wishlist", wishlist);
+      localStorage.setItem('wishlist', wishlist);
     },
     setLocalStorageCart() {
-      let cart = JSON.parse(localStorage.getItem("cart"));
+      let cart = JSON.parse(localStorage.getItem('cart'));
       if (cart) {
         this.SET_CART(cart);
         return;
       }
 
       this.addCartToLocalStorage();
-      cart = JSON.parse(localStorage.getItem("cart"));
+      cart = JSON.parse(localStorage.getItem('cart'));
       this.SET_CART(cart);
     },
     setLocalStorageWishlist() {
-      let wishlist = JSON.parse(localStorage.getItem("wishlist"));
+      let wishlist = JSON.parse(localStorage.getItem('wishlist'));
       if (wishlist) {
         this.SET_WISHLIST(wishlist);
         return;
       }
 
       this.addWishlistToLocalStorage();
-      wishlist = JSON.parse(localStorage.getItem("wishlist"));
+      wishlist = JSON.parse(localStorage.getItem('wishlist'));
       this.SET_WISHLIST(wishlist);
     },
   },
   mounted() {
-    if (localStorage.getItem("token")) {
+    if (localStorage.getItem('token')) {
       this.CHECK_AUTH();
     }
 
@@ -68,7 +70,6 @@ export default {
   },
 };
 </script>
-
 
 
 <style lang="scss">

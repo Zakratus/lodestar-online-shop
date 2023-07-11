@@ -31,10 +31,10 @@
         </Carousel>
       </div>
       <div class="lode-product__info">
-        <h1 class="lode-product__name">{{PRODUCT.name}}</h1>
+        <h1 class="lode-product__name">{{ PRODUCT.name }}</h1>
         <h2 class="lode-product__price">
           <span class="lode-product__label">Цена:</span>
-          {{fixedPrice}} грн
+          {{ fixedPrice }} грн
         </h2>
         <div class="lode-product__available">
           <span class="lode-product__label">Есть в наличии:</span>
@@ -42,11 +42,11 @@
         </div>
         <div class="lode-product__brand">
           <span class="lode-product__label">Брeнд:</span>
-          <p class="lode-product__attentions">{{PRODUCT.brand}}</p>
+          <p class="lode-product__attentions">{{ PRODUCT.brand }}</p>
         </div>
         <div class="lode-product__description">
           <span class="lode-product__label">Описание:</span>
-          <p class="lode-product__text">{{PRODUCT.description}}</p>
+          <p class="lode-product__text">{{ PRODUCT.description }}</p>
         </div>
         <div class="lode-product__specs">
           <span class="lode-product__label">Характеристики:</span>
@@ -56,8 +56,8 @@
               :key="spec._id"
               class="lode-product__specs-item"
             >
-              <span class="lode-product__specs-label">{{spec.specObj.name}}</span>:
-              {{spec.specValue}} {{spec.specObj.sign}}
+              <span class="lode-product__specs-label">{{ spec.specObj.name }}</span>:
+              {{ spec.specValue }} {{ spec.specObj.sign }}
             </li>
           </ul>
         </div>
@@ -65,11 +65,13 @@
           <lode-button
             @click="buyProduct()"
             class="lode-product__button"
-          >Купить</lode-button>
+          >Купить
+          </lode-button>
           <lode-button
             @click="addToCart()"
             class="lode-product__button"
-          >Добавить в корзину</lode-button>
+          >Добавить в корзину
+          </lode-button>
           <lode-button-wishlist
             :isWishlistToggled="isWishlistToggled"
             :productId="PRODUCT._id"
@@ -80,7 +82,7 @@
     </div> <!-- /lode-product -->
 
     <lode-catalog-item
-      v-show='false'
+      v-show="false"
       :product="PRODUCT"
       :addToWishlist="isWishlistToggled"
       @addedToWishlist="addedToWishlist"
@@ -101,17 +103,17 @@
 
 <script>
 // Carousel
-import "vue3-carousel/dist/carousel.css";
-import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
+import 'vue3-carousel/dist/carousel.css';
+import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel';
 
 // Components
-import LodeCatalogSlider from "@/components/catalog/LodeCatalogSlider";
-import LodeRegister from "@/components/registration/LodeRegister";
-import LodeCatalogItem from "@/components/catalog/LodeCatalogItem";
+import LodeCatalogSlider from '@/components/catalog/LodeCatalogSlider';
+import LodeRegister from '@/components/registration/LodeRegister';
+import LodeCatalogItem from '@/components/catalog/LodeCatalogItem';
 
 // Other
-import { mapActions, mapGetters } from "vuex";
-import { fixPrice } from "@/helpers/price";
+import { mapActions, mapGetters } from 'vuex';
+import { fixPrice } from '@/helpers/price';
 
 export default {
   components: {
@@ -126,7 +128,7 @@ export default {
   props: {
     article: {
       type: String,
-      default: "",
+      default: '',
       require: true,
     },
   },
@@ -136,15 +138,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters([
-      "CART_ID",
-      "PRODUCTS",
-      "PRODUCT",
-      "PRODUCT_IMAGES",
-      "IS_PRODUCT_LOADING",
-      "ARE_PRODUCT_IMAGES_LOADING",
-      "IS_USER_AUTH",
-    ]),
+    ...mapGetters('product', ['PRODUCT', 'PRODUCT_IMAGES', 'IS_PRODUCT_LOADING', 'ARE_PRODUCT_IMAGES_LOADING']),
+    ...mapGetters('products', ['PRODUCTS']),
+    ...mapGetters('cart', ['CART_ID']),
+    ...mapGetters('auth', ['IS_USER_AUTH']),
+
     fixedPrice() {
       return this.PRODUCT.price ? fixPrice(this.PRODUCT.price) : null;
     },
@@ -153,15 +151,12 @@ export default {
     },
   },
   methods: {
-    ...mapActions([
-      "GET_PRODUCT_FROM_API",
-      "ADD_TO_CART",
-      "GET_PRODUCTS_FROM_API",
-      "GET_PRODUCT_IMAGES_FROM_API",
-      "SET_CART",
-    ]),
+    ...mapActions('product', ['GET_PRODUCT_FROM_API', 'GET_PRODUCT_IMAGES_FROM_API']),
+    ...mapActions('products', ['GET_PRODUCTS_FROM_API']),
+    ...mapActions('cart', ['SET_CART', 'ADD_TO_CART']),
+
     addItemToLocalStorageCart(product) {
-      let cart = JSON.parse(localStorage.getItem("cart"));
+      let cart = JSON.parse(localStorage.getItem('cart'));
       let newCart = [...cart];
       if (newCart.length) {
         let isProductExsist = false;
@@ -190,7 +185,7 @@ export default {
         newCart.push(newProduct);
       }
 
-      localStorage.setItem("cart", JSON.stringify(newCart));
+      localStorage.setItem('cart', JSON.stringify(newCart));
       return newCart;
     },
     addToCart() {
@@ -203,7 +198,7 @@ export default {
     },
     buyProduct() {
       this.addToCart();
-      this.$router.push("/cart");
+      this.$router.push('/cart');
     },
     addToWishlist() {
       this.isWishlistToggled = true;

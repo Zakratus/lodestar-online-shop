@@ -5,7 +5,8 @@ import createErrorString from "@/helpers/errors";
 import router from '@/router/router';
 import axios from "axios";
 
-export const authModule = {
+export default {
+  namespaced: true,
   state: () => ({
     user: {},
     emailInput: '',

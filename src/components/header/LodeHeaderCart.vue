@@ -13,7 +13,7 @@
         class="lode-header__cart-quantity"
         :class="{'lode-header__cart-quantity--animated': cartAnimation}"
       >
-        <p>{{CART.length ? CART.length : ''}}</p>
+        <p>{{ CART.length ? CART.length : '' }}</p>
       </div>
     </transition>
     <div
@@ -22,7 +22,7 @@
       class="lode-header__cart-modal"
     >
       <ul class="lode-header__cart-list">
-        {{!CART.length ? "В корзине пусто" : ""}}
+        {{ !CART.length ? 'В корзине пусто' : '' }}
         <lode-header-cart-item
           v-for="(item, index) in CART"
           :key="item.product._id"
@@ -38,13 +38,13 @@
           v-if="CART.length"
           class="lode-header__cart-info-quantity"
         >
-          Количество товаров в корзине: {{cartTotalQuantity}}
+          Количество товаров в корзине: {{ cartTotalQuantity }}
         </p>
         <p
           v-if="CART.length"
           class="lode-header__cart-info-total-cost"
         >
-          Итого: {{cartTotalCost}} грн.
+          Итого: {{ cartTotalCost }} грн.
         </p>
         <div class="lode-header__cart-info-btns">
           <lode-button
@@ -67,12 +67,12 @@
 </template>
 
 <script>
-import LodeHeaderCartItem from "@/components/header/LodeHeaderCartItem";
-import { mapGetters, mapActions } from "vuex";
-import { fixPrice } from "@/helpers/price";
+import LodeHeaderCartItem from '@/components/header/LodeHeaderCartItem';
+import { mapGetters, mapActions } from 'vuex';
+import { fixPrice } from '@/helpers/price';
 
 export default {
-  name: "LodeHeaderCart",
+  name: 'LodeHeaderCart',
   components: {
     LodeHeaderCartItem,
   },
@@ -83,16 +83,17 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["CART", "CART_ID", "IS_USER_AUTH", "USER"]),
+    ...mapGetters('cart', ['CART', 'CART_ID']),
+    ...mapGetters('auth', ['IS_USER_AUTH', 'USER']),
     cartTotalCost() {
       return !this.CART.length
         ? 0
         : fixPrice(
-            this.CART.reduce(
-              (acc, item) => acc + item.quantity * item.product.price,
-              0
-            )
-          );
+          this.CART.reduce(
+            (acc, item) => acc + item.quantity * item.product.price,
+            0,
+          ),
+        );
     },
     cartTotalQuantity() {
       return !this.CART.length
@@ -107,11 +108,12 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["GET_CART_FROM_API", "GET_WISHLIST_FROM_API"]),
+    ...mapActions('cart', ['GET_CART_FROM_API']),
+    ...mapActions('userFeatures', ['GET_WISHLIST_FROM_API']),
     toggleShowCartList() {
       document
-        .querySelector("body")
-        .addEventListener("click", () => (this.showCartList = false), {
+        .querySelector('body')
+        .addEventListener('click', () => (this.showCartList = false), {
           once: true,
         });
 
@@ -119,7 +121,7 @@ export default {
     },
     toCart() {
       this.toggleShowCartList();
-      this.$router.push("/cart");
+      this.$router.push('/cart');
     },
   },
   watch: {

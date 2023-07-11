@@ -2,7 +2,8 @@ import ProductService from "@/services/products.service";
 import ImageService from "@/services/images.service";
 import { fixProductArticle } from "@/helpers/article";
 
-export const productModule = {
+export default {
+  namespaced: true,
   state: () => ({
     product: {},
     isProductLoading: false,

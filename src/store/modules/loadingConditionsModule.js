@@ -1,4 +1,5 @@
-export const loadingConditionsModule = {
+export default {
+  namespaced: true,
   state: () => ({
     areCategoriesLoaded: false
   }),

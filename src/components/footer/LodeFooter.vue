@@ -19,7 +19,7 @@
               class="lode-footer__links-item"
             >
               <router-link :to="{path: category.path}">
-                {{category.value}}
+                {{ category.value }}
               </router-link>
             </li>
           </ul>
@@ -110,9 +110,9 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 // SVG
-import { PhoneSvgSrc, MailSvgSrc, MapSvgSrc } from "@/assets/icons";
+import { PhoneSvgSrc, MailSvgSrc, MapSvgSrc } from '@/assets/icons';
 
 export default {
   components: {
@@ -128,11 +128,12 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["CATEGORIES", "IS_USER_AUTH"]),
+    ...mapGetters('search', ['CATEGORIES']),
+    ...mapGetters('auth', ['IS_USER_AUTH']),
     footerCategories() {
-      const INVALID_CATEGORY_NAME = "Все категории";
+      const INVALID_CATEGORY_NAME = 'Все категории';
       return [...this.CATEGORIES].filter(
-        (category) => category.name !== INVALID_CATEGORY_NAME
+        (category) => category.name !== INVALID_CATEGORY_NAME,
       );
     },
   },

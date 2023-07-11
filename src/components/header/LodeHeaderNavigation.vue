@@ -11,7 +11,8 @@
             :to="'/'"
             class="lode-header-navigation__link"
             :class="{'lode-header-navigation__link--active': checkActive('/')}"
-          >Главная</router-link>
+          >Главная
+          </router-link>
         </div>
         <div class="lode-header-navigation__item">
           <router-link
@@ -19,7 +20,8 @@
             :to="'/catalog'"
             class="lode-header-navigation__link"
             :class="{'lode-header-navigation__link--active': checkActive('/catalog')}"
-          >Все товары</router-link>
+          >Все товары
+          </router-link>
         </div>
         <div
           v-for="category in categories"
@@ -31,7 +33,8 @@
             :to="{path: category.path}"
             class="lode-header-navigation__link"
             :class="{'lode-header-navigation__link--active': checkActive(category.path)}"
-          >{{category.value}}</router-link>
+          >{{ category.value }}
+          </router-link>
         </div>
       </div>
     </div>
@@ -39,9 +42,10 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
+
 export default {
-  name: "LodeHeaderNavigation",
+  name: 'LodeHeaderNavigation',
   data() {
     return {};
   },
@@ -52,10 +56,10 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["CATEGORIES"]),
+    ...mapGetters('search', ['CATEGORIES']),
     categories() {
       return this.CATEGORIES.filter(
-        (category) => category.value !== "Все категории"
+        (category) => category.value !== 'Все категории',
       );
     },
     windowWidth() {
@@ -64,11 +68,11 @@ export default {
   },
   methods: {
     checkActive(path) {
-      return this.$route.path === path ? true : false;
+      return this.$route.path === path;
     },
     closeNavBar() {
       if (this.showNavBar) {
-        this.$emit("closeNavBar");
+        this.$emit('closeNavBar');
       }
     },
   },
