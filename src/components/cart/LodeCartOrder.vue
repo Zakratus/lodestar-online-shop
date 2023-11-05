@@ -145,7 +145,7 @@ export default {
     getCartItemImage(cartItem) {
       return cartItem?.image?.includes('http')
         ? cartItem.image
-        : require(`../../${cartItem.image}`);
+        : `/src/${cartItem.image}`;
     },
 
     getProductItemPrice(cartItem) {

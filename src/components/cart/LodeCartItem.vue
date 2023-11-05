@@ -11,19 +11,20 @@
       <h1
         @click="$router.push(`/catalog/${cartItem.article}`)"
         class="lode-cart__item-name"
-      >{{cartItem.name}}</h1>
-      <p class="lode-cart__item-article">{{cartItem.article}}</p>
+      >{{ cartItem.name }}</h1>
+      <p class="lode-cart__item-article">{{ cartItem.article }}</p>
       <p class="lode-cart__item-quantity">
         <span @click="incrementCartItem()">+</span>
-        {{quantity}}
+        {{ quantity }}
         <span @click="decrementCartItem()">-</span>
       </p>
-      <p class="lode-cart__item-price">{{fixedPrice}}</p>
+      <p class="lode-cart__item-price">{{ fixedPrice }}</p>
     </div>
     <lode-button
       @click="deleteFromCart()"
       class="lode-cart__item-button btn--hover-lighten"
-    >Х</lode-button>
+    >Х
+    </lode-button>
 
   </li>
 </template>
@@ -65,7 +66,7 @@ export default {
     cartItemImage() {
       return this.cartItem.image.includes("http")
         ? this.cartItem.image
-        : require(`../../${this.cartItem.image}`);
+        : `../../${this.cartItem.image}`
     },
   },
   methods: {

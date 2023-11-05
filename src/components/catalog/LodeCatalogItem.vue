@@ -108,7 +108,7 @@ export default {
       if (this.product.image) {
         return this.product.image.includes('http')
           ? this.product.image
-          : require(`../../${this.product.image}`);
+          : `/src/${this.product.image}`;
       }
     },
     isProductInWishlist() {

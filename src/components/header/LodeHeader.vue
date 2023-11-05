@@ -1,11 +1,11 @@
 <template>
-  <lode-upper-header />
+  <lode-upper-header/>
   <header class="lode-header">
     <div class="container">
       <div class="lode-header__inner">
         <div class="lode-header__logo-wrepper">
           <img
-            :src="require('../../assets/Lodestar Logo.jpg')"
+            src="../../assets/Lodestar Logo.jpg"
             class="lode-header__logo"
             @click="$router.push('/')"
           >
@@ -21,7 +21,7 @@
               >
             </router-link>
           </div>
-          <lode-header-cart />
+          <lode-header-cart/>
           <div
             @click="toggleNavBar()"
             class="lode-header__burger"

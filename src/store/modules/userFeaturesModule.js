@@ -4,11 +4,11 @@ export default {
   namespaced: true,
   state: () => ({
     wishlist: [],
-    orders: []
+    orders: [],
   }),
   getters: {
     WISHLIST: (state) => state.wishlist,
-    ORDERS: (state) => state.orders
+    ORDERS: (state) => state.orders,
   },
   mutations: {
     SET_WISHLIST: (state, products) => state.wishlist = products,
@@ -85,7 +85,7 @@ export default {
     },
     async CREATE_GUEST_ORDER({ commit }, { products, orderData, userData }) {
       try {
-        const GUEST_USER_ID = process.env.VUE_APP_GUEST_USER_ID;
+        const GUEST_USER_ID = import.meta.env.VITE__GUEST_USER_ID;
         await UserFeaturesService.createOrder(GUEST_USER_ID, products, orderData, userData);
 
         return true
@@ -95,5 +95,5 @@ export default {
       }
     },
 
-  }
+  },
 }

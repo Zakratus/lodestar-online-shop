@@ -1,7 +1,7 @@
 <template>
   <div class="lode-header__cart">
     <img
-      :src="require('../../assets/shopping-cart.png')"
+      :src="'/src/assets/shopping-cart.png'"
       alt=""
       :class="{'lode-header__cart-image--animated': cartAnimation}"
       class="lode-header__cart-image"

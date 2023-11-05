@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const API_URL = process.env.VUE_APP_API_URL + "/api/v1";
+export const API_URL = import.meta.env.VITE__API_URL + "/api/v1";
 export const CLIENT_URL = "http://localhost:8080"
 
 export const request = async ({ url, method, data = {} }) => {
@@ -11,7 +11,7 @@ export const request = async ({ url, method, data = {} }) => {
 // Authentication requests 
 const authRequest = axios.create({
   withCredentials: true,
-  baseURL: `${API_URL}`
+  baseURL: `${API_URL}`,
 });
 
 authRequest.interceptors.request.use((config) => {

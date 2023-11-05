@@ -7,7 +7,7 @@ const routes = [
   {
     path: '/',
     name: 'main',
-    component: () => import('@/pages/MainPage')
+    component: () => import('@/pages/MainPage'),
   },
   {
     path: '/search',
@@ -22,17 +22,17 @@ const routes = [
   {
     path: '/profile',
     component: () => import('@/pages/ProfilePage'),
-    name: 'profile-page'
+    name: 'profile-page',
   },
   {
     path: '/wishlist',
     component: () => import('@/pages/WishlistPage'),
-    name: 'wishlist'
+    name: 'wishlist',
   },
   {
     path: '/history',
     component: () => import('@/pages/HistoryPage'),
-    name: 'history'
+    name: 'history',
   },
 
   /* Info Pages */
@@ -53,7 +53,7 @@ const routes = [
 
 const router = createRouter({
   routes,
-  history: createWebHistory(process.env.BASE_URL)
+  history: createWebHistory(import.meta.env.BASE_URL),
 })
 
 export default router

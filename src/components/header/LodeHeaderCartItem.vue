@@ -59,7 +59,7 @@ export default {
     cartItemImage() {
       return this.cartItem?.image?.includes('http')
         ? this.cartItem.image
-        : require(`../../${this.cartItem.image}`);
+        : `/src/${this.cartItem.image}`;
     },
   },
   methods: {

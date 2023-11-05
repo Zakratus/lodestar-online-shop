@@ -131,7 +131,7 @@ export default {
         return;
       }
 
-      if (this.category === process.env.VUE_APP_CATEGORY_ALL_ID) {
+      if (this.category === import.meta.env.VITE__CATEGORY_ALL_ID) {
         await this.GET_PRODUCTS_FROM_API();
       } else {
         await this.GET_PRODUCTS_FROM_API(this.category);

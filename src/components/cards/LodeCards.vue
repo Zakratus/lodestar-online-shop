@@ -45,7 +45,7 @@ export default {
       if (this.categoriesCards && this.ARE_CATEGORIES_LOADED) {
         return [...this.CATEGORIES]
           .filter(
-            (category) => category._id !== process.env.VUE_APP_CATEGORY_ALL_ID
+            (category) => category._id !== import.meta.env.VITE__CATEGORY_ALL_ID,
           )
           .reverse();
       }

@@ -19,14 +19,14 @@
             :key="image._id"
           >
             <img
-              :src="require(`../${image.path}`)"
+              :src="`/src/${image.path}`"
               :alt="image.name"
               class="lode-product__image"
             >
           </Slide>
           <template #addons>
-            <Navigation />
-            <Pagination />
+            <Navigation/>
+            <Pagination/>
           </template>
         </Carousel>
       </div>
@@ -92,7 +92,7 @@
       <h2 class="lode-product__else-title">
         Возможно вас это заинтересует
       </h2>
-      <lode-catalog-slider :products="PRODUCTS" />
+      <lode-catalog-slider :products="PRODUCTS"/>
     </div>
 
   </div> <!-- /container  -->

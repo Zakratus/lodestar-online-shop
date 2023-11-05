@@ -1,13 +1,14 @@
 <template>
   <div class="lode-cards__item">
-    <h1 class="lode-cards__item-title">{{itemsObject.value}}</h1>
+    <h1 class="lode-cards__item-title">{{ itemsObject.value }}</h1>
     <router-link
       class="lode-cards__item-link"
       :to="itemsObject.path"
-    >Перейти к категории</router-link>
+    >Перейти к категории
+    </router-link>
     <div class="lode-cards__item-inner">
       <img
-        :src="require(`../../${itemsObject.image}`)"
+        :src="`/src/${itemsObject.image}`"
         alt=""
         class="lode-cards__item-image"
       >
